@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="mic" unicode="&#xe800;" d="m0 294v106q0 18 13 31t30 12 31-12 13-31v-106q0-89 65-152t155-63q90 0 154 63t65 152v106q0 18 13 31t31 12 31-12 12-31v-106q0-113-74-197t-187-101v-43h137q18 0 31-12t13-31q0-18-12-30t-32-13h-361q-18 0-31 13t-13 30q0 18 13 31t31 12h137v42q-74 10-134 52t-96 107-35 140z m144 5v374q0 66 48 113t115 47q67 0 114-47t48-113v-374q0-66-48-113t-114-47q-67 0-115 47t-48 113z" horiz-adv-x="613.8" />
+<glyph glyph-name="mic-off" unicode="&#xe801;" d="m0 731q0-18 13-31l794-782q13-12 31-12t31 12q13 12 13 31t-13 30l-794 783q-12 12-31 12t-31-12q-13-13-13-31z m119-437v106q0 18 13 31t31 12q18 0 31-12t13-31v-106q0-89 64-152t155-63q59 0 107 28l64-63q-57-37-125-48v-43h137q18 0 31-12t13-31q0-18-13-30t-31-13h-362q-18 0-31 13t-13 30q0 18 13 31t31 12h137v42q-74 10-135 52t-95 107-35 140z m144 5v73l225-220q-31-13-62-13-68 0-115 47t-48 113z m0 359v15q0 66 48 113t115 47 115-47 47-113v-336z m381-376q0 2 0 6t1 6v106q0 18 12 31t31 12q19 0 32-12t13-31v-106q0-42-14-86z" horiz-adv-x="881.8" />
+<glyph glyph-name="volume-off" unicode="&#xe802;" d="m0 551l305 0 345 282 0-965-345 279-229 0z m713-283q0 4 2 6l76 76-76 76q-2 2-2 6t2 6l53 53q2 2 5 2t6-2l76-76 77 76q4 2 6 2t5-2l55-53q2-2 2-6t-2-6l-76-76 76-76q2-4 2-7t-2-5l-55-55q-2-1-5-1t-6 1l-77 79-76-79q-2-1-5-1t-6 1l-53 55q-2 2-2 6z" horiz-adv-x="1000" />
+<glyph glyph-name="volume" unicode="&#xe803;" d="m0 142l0 416 236 0 354 289 0-994-354 289-236 0z m652 35q73 74 73 176t-73 178l71 74q105-106 107-254 0-145-107-246z m118-119q123 119 123 295t-123 299l76 74q154-154 154-372t-154-372z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>
