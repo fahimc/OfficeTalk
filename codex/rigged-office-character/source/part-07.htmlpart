@@ -1,0 +1,260 @@
+      showDirectorLine('Then let us plan your next project together.', 'right');
+    });
+
+    cue(9800, () => {
+      setScene('studio', 'shot 5 · back on the movie set');
+      setCamera('wide', 'shot 5 · director wrap');
+      setMotion('wave');
+      setSecondaryMotion('wave');
+      setSecondaryStage({ left: '26%', bottom: '4%', scale: 1, widthScale: 1, matchHeight: true, flip: false });
+      showDirectorLine('Cut! Great scene. We got the wide shot and both close-ups.', 'center');
+    });
+
+    cue(12400, () => {
+      speechBubble.classList.remove('visible');
+      setMotion('idle');
+      setSecondaryMotion('idle');
+      directorDemoRunning = false;
+      updateDirectorUI('demo complete');
+    });
+  }
+
+
+  let state = 'idle';
+  let currentMouth = 'rest';
+  let speaking = false;
+  let blinkEnabled = true;
+  let eyeFollow = true;
+  let nextBlink = performance.now() + 1800;
+  let pointer = {x:0,y:0};
+  let speechTimer = null;
+  let speechIndex = 0;
+
+  const mouthMap = {
+    M:/[mbp]/i,
+    F:/[fv]/i,
+    O:/[oquw]/i,
+    E:/[eiy]/i,
+    A:/[aäàáâ]/i
+  };
+
+  function setMouth(name){
+    currentMouth = name;
+    rootSetMouth(svg, name);
+  }
+
+  function mouthForChar(ch){
+    if(!ch || /\s|[.,!?;:]/.test(ch)) return 'rest';
+    for(const [name,re] of Object.entries(mouthMap)){
+      if(re.test(ch)) return name;
+    }
+    return 'A';
+  }
+
+  function tr(el, x=0, y=0, rot=0, sx=1, sy=1, ox='center', oy='center'){
+    el.style.transformOrigin = `${ox} ${oy}`;
+    el.style.transform = `translate(${x}px,${y}px) rotate(${rot}deg) scale(${sx},${sy})`;
+  }
+
+  function clearExpression(){
+    parts.browLeft.setAttribute('d','M196 198 Q212 190 228 196');
+    parts.browRight.setAttribute('d','M257 196 Q272 190 287 198');
+    if(!speaking) setMouth('rest');
+  }
+
+  function updateRig(t){
+    const speed = Number(speedInput.value);
+    const s = t * 0.001 * speed;
+    let headRot = 0, frontRot = 0;
+
+    // Reset to a clean base rig every frame.
+    clearExpression();
+    svg.style.left = '41%';
+    mainPoseScale = 1;
+    tr(parts.head,0,0,0,1,1,'243px','340px');
+    tr(parts.torso,0,0,0,1,1,'243px','352px');
+    tr(parts.frontArm,0,0,0,1,1,'285px','365px');
+    tr(parts.backArm,0,0,0,1,1,'200px','365px');
+    tr(parts.frontUpper,0,0,0,1,1,'285px','365px');
+    tr(parts.frontFore,0,0,0,1,1,'327px','423px');
+    tr(parts.legLeft,0,0,0,1,1,'220px','574px');
+    tr(parts.legRight,0,0,0,1,1,'264px','574px');
+    tr(parts.leftThigh,0,0,0,1,1,'220px','574px');
+    tr(parts.leftShin,0,0,0,1,1,'214px','648px');
+    tr(parts.rightThigh,0,0,0,1,1,'264px','574px');
+    tr(parts.rightShin,0,0,0,1,1,'270px','648px');
+    svg.style.transform = 'translateX(-56%) translateY(0px) scale(1)';
+
+    const breathe = Math.sin(s * 2.1);
+    tr(parts.torso, 0, breathe * 1.8, 0, 1, 1 + breathe * 0.003, '243px', '352px');
+    tr(parts.head, 0, breathe * 1.2, Math.sin(s * 1.15) * 0.9, 1, 1, '243px', '340px');
+
+    // Base standing pose similar to the reference.
+    tr(parts.backArm, 0, 0, 6, 1, 1, '200px', '365px');
+    tr(parts.frontUpper, 0, 0, -8, 1, 1, '285px', '365px');
+    tr(parts.frontFore, 0, 0, 18, 1, 1, '327px', '423px');
+
+    if(state === 'idle'){
+      headRot = Math.sin(s * 1.15) * 0.9;
+      frontRot = -8 + Math.sin(s * 1.2) * 1.2;
+      tr(parts.frontUpper, 0, breathe * 0.7, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, 16 + Math.sin(s * 1.6) * 3, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, breathe * 0.6, 7 + Math.sin(s * 1.4) * 1.5, 1, 1, '200px', '365px');
+      if(!speaking) setMouth('rest');
+    }
+
+    if(state === 'talk'){
+      headRot = Math.sin(s * 3.0) * 1.6;
+      frontRot = -22 + Math.sin(s * 3.8) * 5;
+      tr(parts.head, 0, breathe, headRot, 1, 1, '243px', '340px');
+      tr(parts.torso, 0, breathe * 2.2, 0, 1, 1 + breathe * 0.004, '243px', '352px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, 20 + Math.sin(s * 4.4) * 12, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, 10 + Math.sin(s * 2.8) * 2, 1, 1, '200px', '365px');
+      if(!speaking) setMouth(Math.sin(s * 8) > 0 ? 'A' : 'E');
+    }
+
+    if(state === 'wave'){
+      headRot = -2 + Math.sin(s * 1.6) * 0.8;
+      frontRot = -40 + Math.sin(s * 2.1) * 2;
+      tr(parts.head, 0, 0, headRot, 1, 1, '243px', '340px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, -188 + Math.sin(s * 7.5) * 15, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, 8, 1, 1, '200px', '365px');
+      if(!speaking) setMouth('smile');
+    }
+
+    if(state === 'point'){
+      headRot = 1.5;
+      frontRot = -55;
+      tr(parts.head, 0, 0, headRot, 1, 1, '243px', '340px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, -92, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, 18, 1, 1, '200px', '365px');
+      if(!speaking) setMouth('rest');
+    }
+
+    if(state === 'think'){
+      headRot = 7;
+      frontRot = -58;
+      tr(parts.head, 0, 0, headRot, 1, 1, '243px', '340px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, 138 + Math.sin(s * 2.2) * 4, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, 12, 1, 1, '200px', '365px');
+      parts.browLeft.setAttribute('d','M196 201 Q212 185 228 193');
+      parts.browRight.setAttribute('d','M257 197 Q272 191 287 199');
+      if(!speaking) setMouth('M');
+    }
+
+    if(state === 'surprised'){
+      tr(parts.head, 0, -4, 0, 1.02, 1.02, '243px', '340px');
+      tr(parts.torso, 0, -1, 0, 1, 1, '243px', '352px');
+      tr(parts.frontUpper, 0, 0, -24, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, -55, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, 34, 1, 1, '200px', '365px');
+      parts.browLeft.setAttribute('d','M196 186 Q212 170 228 184');
+      parts.browRight.setAttribute('d','M257 184 Q272 168 287 184');
+      if(!speaking) setMouth('O');
+    }
+
+    if(state === 'walk'){
+      const stride = Math.sin(s * 4.4);
+      const lift = Math.abs(Math.sin(s * 4.4));
+      headRot = Math.sin(s * 2.2) * 0.5;
+      frontRot = -8 - stride * 12;
+      tr(parts.torso, stride * 1.5, lift * 1.5, 0, 1, 1, '243px', '352px');
+      tr(parts.head, stride * 1.2, -lift * 1.2, headRot, 1, 1, '243px', '340px');
+      tr(parts.leftThigh, 0, 0, stride * 10, 1, 1, '220px', '574px');
+      tr(parts.rightThigh, 0, 0, -stride * 10, 1, 1, '264px', '574px');
+      tr(parts.leftShin, 0, 0, Math.max(0, -stride) * 9, 1, 1, '214px', '648px');
+      tr(parts.rightShin, 0, 0, Math.max(0, stride) * 9, 1, 1, '270px', '648px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, 18 + stride * 4, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, 6 + stride * 10, 1, 1, '200px', '365px');
+      svg.style.transform = `translateX(-56%) translateY(${lift * -3}px) scale(1)`;
+      if(!speaking) setMouth('rest');
+    }
+
+    if(state === 'sit'){
+      const bob = Math.sin(s * 1.9) * 0.45;
+
+      // Keep the head mostly upright. Direction is communicated by the eyes,
+      // with only a very slight conversational turn.
+      headRot = -2.5 + Math.sin(s * 1.2) * 0.25;
+      frontRot = 8 + Math.sin(s * 1.3) * 0.8;
+
+      // Keep the seated character centred on the chair.
+      svg.style.left = '76%';
+      svg.style.transform = 'translateX(-50%) translateY(6px) scale(0.88)';
+      mainPoseScale = 0.88;
+
+      // Keep the body and neck vertically balanced in the chair.
+      tr(parts.torso, 0, bob, 0, 1, 1, '243px', '352px');
+      tr(parts.head, -2, bob * 0.35, headRot, 1, 1, '243px', '340px');
+
+      // Arms still use the rig, posed like someone seated at a desk.
+      tr(parts.backArm, 0, 0, 16, 1, 1, '200px', '365px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, -70 + Math.sin(s * 1.4) * 1.2, 1, 1, '327px', '423px');
+
+      // Reposition the leg rigs so the lower legs are visible below the desk,
+      // while the thighs remain implied behind the desk edge.
+      tr(parts.legLeft, 8, 4, 0, 1, 1, '220px', '574px');
+      tr(parts.legRight, -10, 6, 0, 1, 1, '264px', '574px');
+
+      // Left leg hangs slightly outwards like the reference.
+      tr(parts.leftThigh, 0, 0, 20, 1, 1, '220px', '574px');
+      tr(parts.leftShin, 0, 0, -24, 1, 1, '214px', '648px');
+
+      // Right leg is a little straighter and closer to the chair centre.
+      tr(parts.rightThigh, 0, 0, -8, 1, 1, '264px', '574px');
+      tr(parts.rightShin, 0, 0, 10, 1, 1, '270px', '648px');
+
+      parts.browLeft.setAttribute('d','M196 198 Q212 191 228 197');
+      parts.browRight.setAttribute('d','M257 197 Q272 191 287 198');
+      if(!speaking) setMouth('rest');
+    }
+
+    if(state === 'angry'){
+      headRot = Math.sin(s * 6.5) * 1.1;
+      frontRot = 8 + Math.sin(s * 4.2) * 1.5;
+      tr(parts.head, 0, 0, headRot, 1, 1, '243px', '340px');
+      tr(parts.torso, 0, breathe * 1.2, 0, 1, 1, '243px', '352px');
+      tr(parts.frontUpper, 0, 0, frontRot, 1, 1, '285px', '365px');
+      tr(parts.frontFore, 0, 0, 26, 1, 1, '327px', '423px');
+      tr(parts.backArm, 0, 0, -6, 1, 1, '200px', '365px');
+      parts.browLeft.setAttribute('d','M196 186 L228 198');
+      parts.browRight.setAttribute('d','M257 198 L287 186');
+      if(!speaking) setMouth('frown');
+    }
+
+    // Eye following is layered on top.
+    if(state === 'sit'){
+      // In the seated conversation pose, look left toward the other character.
+      tr(parts.pupils, -9, -1, 0, 1, 1, '245px', '234px');
+    }else if(eyeFollow){
+      tr(parts.pupils, pointer.x * 8, pointer.y * 6, 0, 1, 1, '245px', '234px');
+    }else{
+      tr(parts.pupils, 0, 0, 0, 1, 1, '245px', '234px');
+    }
+
+    // blink
+    if(blinkEnabled && t > nextBlink){
+      parts.lidLeft.style.opacity = '1';
+      parts.lidRight.style.opacity = '1';
+      setTimeout(() => {
+        parts.lidLeft.style.opacity = '0';
+        parts.lidRight.style.opacity = '0';
+      },110);
+      nextBlink = t + 1900 + Math.random() * 3200;
+    }
+
+    readout.innerHTML =
+      `state: ${state}<br>` +
+      `mouth: ${currentMouth}<br>` +
+      `head: ${headRot.toFixed(1)}deg<br>` +
+      `frontArm: ${frontRot.toFixed(1)}deg`;
+
+    renderSecondaryRig(t);
+    requestAnimationFrame(updateRig);
+  }
