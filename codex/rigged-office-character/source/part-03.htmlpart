@@ -1,0 +1,181 @@
+          <path class="outline outfit-accent" d="M210 431 Q243 421 275 431 L271 449 Q243 457 215 449 Z"/>
+        </g>
+
+        <g id="outfit-style-blouseSkirt" class="outfit-style hidden-style">
+          <path class="outline outfit-secondary" d="M208 348 Q243 334 278 348 L282 438 Q244 447 204 438 Z"/>
+          <path class="outline outfit-main" d="M206 433 Q243 423 280 433 L288 568 Q244 586 196 568 Z"/>
+          <path class="outline outfit-accent" d="M208 432 Q243 425 278 432 L276 447 Q243 452 210 447 Z"/>
+        </g>
+
+        <g id="outfit-style-cardigan" class="outfit-style hidden-style">
+          <path class="outline outfit-main" d="M205 348 Q243 334 281 348 L291 568 Q246 584 192 568 Z"/>
+          <path class="outline outfit-secondary" d="M222 349 Q243 341 264 349 L260 422 Q243 429 226 422 Z"/>
+          <path class="outline outfit-main" d="M211 352 L223 426 L211 514 L198 447 Z"/>
+          <path class="outline outfit-main" d="M274 352 L262 426 L274 514 L286 447 Z"/>
+          <path class="outline outfit-accent" d="M235 356 L251 356 L258 391 L243 403 L227 391 Z"/>
+        </g>
+
+        <circle class="joint" cx="243" cy="352" r="10"/>
+        <path class="bone-guide" d="M243 352 L243 570"/>
+      </g>
+
+      <!-- Neck -->
+      <g id="neck">
+        <path class="outline face-fill" d="M225 335 L225 362 Q244 374 261 362 L261 335 Z"/>
+      </g>
+
+      <!-- Head -->
+      <g id="head" data-bone="head">
+        <path id="face-main" class="outline face-fill" d="M182 203 Q186 152 242 149 Q298 151 303 203 L300 286 Q292 337 243 342 Q192 338 185 286 Z"/>
+        <!-- Hair styles -->
+        <g id="hair-style-swept" class="hair-style">
+          <path class="outline hair-fill" d="M182 206 Q175 153 221 134 Q281 110 322 151 Q331 165 329 201 L304 199 Q286 174 258 168 Q214 156 183 177 Z"/>
+          <path class="outline hair-fill" d="M179 176 Q159 174 155 198 Q156 223 179 226 Z"/>
+          <path class="outline hair-fill" d="M307 196 Q315 169 295 156 Q278 145 260 150 Q283 162 292 183 Z"/>
+        </g>
+        <g id="hair-style-buzz" class="hair-style hidden-style">
+          <path class="outline hair-fill" d="M185 204 Q184 162 223 146 Q275 129 308 154 Q318 164 317 198 Q289 180 246 176 Q215 173 186 184 Z"/>
+          <path class="outline hair-fill" d="M180 179 Q164 178 161 196 Q162 213 179 218 Z"/>
+        </g>
+        <g id="hair-style-curly" class="hair-style hidden-style">
+          <path class="outline hair-fill" d="M182 205 Q181 162 220 140 Q271 120 308 146 Q320 157 321 188
+             Q311 180 304 170 Q297 179 286 169 Q275 181 265 170 Q255 183 243 172 Q233 186 222 173
+             Q212 185 201 173 Q191 183 182 205 Z"/>
+          <circle class="outline hair-fill" cx="195" cy="170" r="12"/>
+          <circle class="outline hair-fill" cx="220" cy="154" r="13"/>
+          <circle class="outline hair-fill" cx="247" cy="150" r="13"/>
+          <circle class="outline hair-fill" cx="274" cy="154" r="13"/>
+          <circle class="outline hair-fill" cx="298" cy="168" r="12"/>
+        </g>
+        <g id="hair-style-ponytail" class="hair-style hidden-style">
+          <!-- rounded cap that follows the head curve cleanly -->
+          <path class="outline hair-fill" d="M184 205
+             Q184 166 217 146
+             Q243 134 271 140
+             Q294 145 307 158
+             Q318 170 319 191
+             Q307 180 287 172
+             Q266 164 243 164
+             Q219 164 199 172
+             Q187 178 184 205 Z"/>
+          <!-- pony behind the head: ball + tail -->
+          <circle class="outline hair-fill" cx="312" cy="179" r="18"/>
+          <path class="outline hair-fill" d="M321 186
+             Q338 196 339 214
+             Q339 232 324 242
+             Q314 236 308 224
+             Q310 210 303 197 Z"/>
+          <path class="thin" d="M222 155 Q244 149 267 155"/>
+        </g>
+        <g id="hair-style-bun" class="hair-style hidden-style">
+          <!-- bigger bun, set a little higher behind the head -->
+          <circle class="outline hair-fill" cx="311" cy="160" r="27"/>
+          <path class="outline hair-fill" d="M184 205
+             Q184 166 217 146
+             Q243 134 271 140
+             Q294 145 307 158
+             Q318 170 319 191
+             Q307 180 287 172
+             Q266 164 243 164
+             Q219 164 199 172
+             Q187 178 184 205 Z"/>
+          <path class="thin" d="M222 155 Q244 149 267 155"/>
+        </g>
+        <g id="hair-style-bob" class="hair-style hidden-style">
+          <path class="outline hair-fill" d="M183 204 Q183 161 222 142 Q273 123 308 148 Q321 161 320 198
+             Q320 224 309 248 L300 292 Q290 311 272 314 L272 299 Q294 279 296 240 Q297 209 285 188
+             Q271 170 243 168 Q217 168 201 185 Q188 201 188 236 Q188 278 211 300 L211 314 Q192 309 183 292
+             L174 248 Q165 226 165 198 Q166 164 183 204 Z"/>
+        </g>
+        <g id="hair-style-long" class="hair-style hidden-style">
+          <path class="outline hair-fill" d="M183 204 Q183 161 222 142 Q273 123 308 148 Q321 161 320 198
+             L316 242 L309 332 Q301 352 283 354 L282 337 Q297 313 297 268 Q297 215 283 188
+             Q269 170 243 168 Q217 168 201 185 Q188 201 188 260 Q188 313 204 337 L203 354 Q186 351 177 331
+             L170 242 Q164 222 165 198 Q166 164 183 204 Z"/>
+        </g>
+
+        <!-- Eyes -->
+        <g id="eyes">
+          <ellipse class="eye-white" cx="214" cy="228" rx="18" ry="26"/>
+          <ellipse class="eye-white" cx="271" cy="228" rx="18" ry="26"/>
+          <g id="pupils">
+            <ellipse class="pupil" cx="218" cy="233" rx="6.5" ry="13"/>
+            <ellipse class="pupil" cx="275" cy="233" rx="6.5" ry="13"/>
+          </g>
+          <path id="lid-left" class="thin" d="M198 226 Q214 219 230 226" opacity="0"/>
+          <path id="lid-right" class="thin" d="M255 226 Q271 219 287 226" opacity="0"/>
+        </g>
+
+        <!-- Tiny nose and reference-style frown -->
+        <path class="thin" d="M243 246 Q236 257 246 262"/>
+
+        <!-- Beard styles are drawn around a local anchor and positioned dynamically
+             from the measured face bounds so they always sit at the bottom of the face. -->
+        <g id="beard-anchor" transform="translate(243 286)">
+          <g id="beard-style-stubble" class="hidden-style">
+            <path class="beard-fill" opacity=".12" d="M-44 -2 Q-26 18 0 22 Q26 18 44 -2 Q26 24 0 30 Q-26 24 -44 -2 Z"/>
+            <circle class="beard-fill" opacity=".46" cx="-36" cy="2" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="-25" cy="10" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="-12" cy="17" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="0" cy="20" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="13" cy="17" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="26" cy="10" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="37" cy="2" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="-30" cy="21" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="-16" cy="26" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="16" cy="26" r="2.7"/>
+            <circle class="beard-fill" opacity=".46" cx="30" cy="21" r="2.7"/>
+          </g>
+          <g id="beard-style-moustache" class="hidden-style">
+            <path class="outline beard-fill" d="M-33 -2 Q-17 -14 -2 -3 Q-12 7 -30 5 Z"/>
+            <path class="outline beard-fill" d="M33 -2 Q17 -14 2 -3 Q12 7 30 5 Z"/>
+          </g>
+          <g id="beard-style-full" class="hidden-style">
+            <path class="outline beard-fill" d="M-46 -2 Q-49 31 -22 47 Q0 57 22 47 Q49 31 46 -2 Q41 18 24 29 Q0 38 -24 29 Q-41 18 -46 -2 Z"/>
+            <path class="outline beard-fill" d="M-33 -2 Q-17 -14 -2 -3 Q-12 7 -30 5 Z"/>
+            <path class="outline beard-fill" d="M33 -2 Q17 -14 2 -3 Q12 7 30 5 Z"/>
+          </g>
+        </g>
+
+        <g id="mouth" transform="translate(239 286)">
+          <path class="mouth-shape active thin" data-mouth="rest" d="M-12 5 Q0 -3 12 2"/>
+          <path class="mouth-shape thin" data-mouth="M" d="M-10 2 Q0 0 10 2"/>
+          <path class="mouth-shape outline" data-mouth="A" d="M-14 0 Q0 -4 14 0 Q0 10 -14 0" fill="#622127"/>
+          <ellipse class="mouth-shape outline" data-mouth="E" cx="0" cy="1" rx="15" ry="7" fill="#74272d"/>
+          <ellipse class="mouth-shape outline" data-mouth="O" cx="0" cy="2" rx="9" ry="14" fill="#74272d"/>
+          <path class="mouth-shape outline" data-mouth="F" d="M-12 0 Q0 -3 12 0 Q0 6 -12 0" fill="#fff"/>
+          <path class="mouth-shape thin" data-mouth="smile" d="M-16 -1 Q0 11 16 -1"/>
+          <path class="mouth-shape thin" data-mouth="frown" d="M-15 7 Q0 -6 15 7"/>
+        </g>
+
+        <g id="brows">
+          <path id="brow-left" class="thin" d="M196 198 Q212 190 228 196"/>
+          <path id="brow-right" class="thin" d="M257 196 Q272 190 287 198"/>
+        </g>
+
+        <circle class="joint" cx="243" cy="340" r="10"/>
+        <path class="bone-guide" d="M243 340 L243 167"/>
+      </g>
+
+      <!-- Front arm -->
+      <g id="front-arm" data-bone="frontArm">
+        <g id="front-upper">
+          <path class="limb" d="M285 365 L327 423"/>
+          <circle class="joint" cx="285" cy="365" r="9"/>
+          <g id="front-fore">
+            <path class="limb" d="M327 423 L294 450"/>
+            <circle class="joint" cx="327" cy="423" r="8"/>
+            <circle class="joint" cx="294" cy="450" r="7"/>
+          </g>
+        </g>
+        <path class="bone-guide" d="M285 365 L327 423 L294 450"/>
+      </g>
+    </svg>
+    <div class="desk-front-mask" id="desk-front-mask"></div>
+    </div>
+    <div class="hud"><span class="dot"></span><span id="motion-label">Idle rig active</span></div>
+    <div class="speech speaker-center" id="speech-bubble">I am a reusable 2D vector puppet.</div>
+  </main>
+
+  <aside class="panel">
+    <h1>2D Character Rig</h1>
