@@ -1,0 +1,289 @@
+    text-align:center;
+    padding:18px 24px;
+    border-radius:18px;
+    opacity:0;
+    transition:opacity .18s, transform .18s, top .18s;
+    z-index:50;
+    pointer-events:none;
+  }
+  .speech.visible{opacity:1;transform:translateX(-50%) translateY(0)}
+  .speech.speaker-left{left:var(--speech-left, 50vw)}
+  .speech.speaker-right{left:var(--speech-left, 50vw)}
+  .speech.speaker-center{left:var(--speech-left, 50vw)}
+  .speech::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:100%;
+    transform:translateX(-50%);
+    border:16px solid transparent;
+    border-top-color:#0a0a0a;
+  }
+  .speech.speaker-left::after{left:26%}
+  .speech.speaker-right::after{left:74%}
+  .speech.speaker-center::after{left:50%}
+  .panel{
+    padding:20px;
+    background:linear-gradient(180deg,var(--panel),#111);
+    border-left:1px solid #333;
+    overflow:auto;
+  }
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:20px}
+  .section{margin:18px 0}
+  .section-title{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    color:#8e8e8e;
+    margin-bottom:10px;
+  }
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  button{
+    border:1px solid #3c3c3c;
+    border-radius:10px;
+    padding:11px 10px;
+    background:#242424;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    transition:.15s;
+  }
+  button:hover{background:#303030;transform:translateY(-1px)}
+  button.active{border-color:var(--accent);background:#322b59;box-shadow:0 0 0 1px var(--accent) inset}
+  .talk-box{
+    background:#202020;
+    border:1px solid #343434;
+    border-radius:14px;
+    padding:12px;
+  }
+  textarea{
+    width:100%;
+    min-height:88px;
+    resize:vertical;
+    border:1px solid #3b3b3b;
+    border-radius:10px;
+    background:#111;
+    color:#fff;
+    padding:11px;
+    font:inherit;
+    line-height:1.4;
+    outline:none;
+  }
+  textarea:focus{border-color:var(--accent)}
+  .wide{width:100%;margin-top:8px;background:linear-gradient(135deg,#6c52ff,#8f63ff);border:0}
+  .row{display:flex;gap:8px;align-items:center}
+  .row>*{flex:1}
+  label.switch{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 0;
+    color:#ddd;
+    font-size:14px;
+  }
+  input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .readout{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11px;
+    color:#a7f3d0;
+    padding:10px;
+    background:#0d1512;
+    border:1px solid #183b2b;
+    border-radius:10px;
+    line-height:1.55;
+  }
+  .controls-card{
+    background:#202020;
+    border:1px solid #343434;
+    border-radius:14px;
+    padding:12px;
+  }
+  .controls-card select{
+    width:100%;
+    margin-top:6px;
+    margin-bottom:10px;
+    border:1px solid #3b3b3b;
+    border-radius:10px;
+    background:#111;
+    color:#fff;
+    padding:10px;
+    font:inherit;
+    outline:none;
+  }
+  .controls-card select:focus{border-color:var(--accent)}
+  .mini-label{
+    font-size:12px;
+    color:#bdbdbd;
+    margin-top:6px;
+  }
+  .swatches{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:8px 0 12px;
+  }
+  .swatch{
+    width:28px;
+    height:28px;
+    border-radius:999px;
+    border:2px solid rgba(255,255,255,.25);
+    cursor:pointer;
+    padding:0;
+    min-width:28px;
+  }
+  .swatch.active{
+    border-color:#fff;
+    box-shadow:0 0 0 2px var(--accent);
+  }
+  .beard-fill{
+    fill:#252525;
+    stroke:#252525;
+  }
+  .hidden-style{display:none}
+
+  /* Vector appearance */
+  .outline{stroke:var(--line);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .limb{stroke:var(--line);stroke-width:8;stroke-linecap:round;fill:none}
+  .thin{stroke:var(--line);stroke-width:5;stroke-linecap:round;fill:none}
+  .face-fill{fill:#eee}
+  .hair-fill{fill:#252525}
+  .outfit-main{fill:#342a8a}
+  .outfit-secondary{fill:#fbfbfb}
+  .outfit-accent{fill:#ef6d4f}
+  .eye-white{fill:#fff;stroke:#111;stroke-width:5}
+  .pupil{fill:#090909}
+  .mouth-shape{display:none}
+  .mouth-shape.active{display:block}
+  .joint{
+    fill:#ff3e88;
+    stroke:white;
+    stroke-width:3;
+    opacity:0;
+    vector-effect:non-scaling-stroke;
+  }
+  .bone-guide{
+    stroke:#00d5ff;
+    stroke-width:3;
+    stroke-dasharray:7 6;
+    opacity:0;
+    fill:none;
+    vector-effect:non-scaling-stroke;
+  }
+  .show-rig .joint,.show-rig .bone-guide{opacity:.8}
+  .show-rig .joint{filter:drop-shadow(0 0 3px #ff3e88)}
+
+  @media(max-width:850px){
+    body{overflow:auto}
+    .app{display:block;min-height:100%}
+    .stage-wrap{height:62vh;min-height:480px}
+    .panel{border-left:0;border-top:1px solid #333}
+    #character-svg{left:36%;width:min(58vw,430px);transform:translateX(-56%)}
+    #character-svg-secondary{left:24%;width:min(52vw,350px)}
+    .speech{top:86px;width:min(84%,580px)}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="stage-wrap" id="stage" data-scene="office">
+    <div class="director-hud">
+      <div class="director-kicker">Director</div>
+      <div class="director-title" id="director-shot">Medium shot</div>
+      <div class="director-sub" id="director-status">Office set ready</div>
+    </div>
+    <div class="camera-rig" id="camera-rig">
+    <div class="office">
+      <div class="board">
+        <i class="paper p1"></i><i class="paper p2"></i><i class="paper p3"></i>
+      </div>
+      <div class="monitor"></div>
+      <div class="desk"></div>
+    </div>
+    <div class="scene-props meeting-props">
+      <div class="meeting-window"></div>
+      <div class="meeting-plant"><div class="pot"></div><div class="leaf l1"></div><div class="leaf l2"></div><div class="leaf l3"></div><div class="leaf l4"></div></div>
+    </div>
+    <div class="scene-props cafe-props">
+      <div class="cafe-shelf">
+        <div class="cafe-cup" style="left:8%"></div>
+        <div class="cafe-cup" style="left:26%"></div>
+        <div class="cafe-cup" style="left:44%"></div>
+        <div class="cafe-cup" style="left:62%"></div>
+      </div>
+      <div class="cafe-counter"></div>
+    </div>
+    <div class="scene-props studio-props">
+      <div class="studio-light left"></div>
+      <div class="studio-light right"></div>
+      <div class="studio-tripod"><div class="cam"></div><div class="leg l1"></div><div class="leg l2"></div><div class="leg l3"></div></div>
+      <div class="studio-chair"><div class="back"></div><div class="seat"></div><div class="x1"></div><div class="x2"></div></div>
+    </div>
+    <div class="chair" id="chair"></div>
+
+    <svg id="character-svg" viewBox="0 0 500 760" role="img" aria-label="Rigged office character">
+      <!-- Back arm -->
+      <g id="back-arm" data-bone="backArm">
+        <path id="back-upper" class="limb" d="M200 365 L160 425"/>
+        <path id="back-fore" class="limb" d="M160 425 L200 449"/>
+        <circle class="joint" cx="200" cy="365" r="9"/>
+        <circle class="joint" cx="160" cy="425" r="8"/>
+        <path class="bone-guide" d="M200 365 L160 425 L200 449"/>
+      </g>
+
+      <!-- Legs -->
+      <g id="leg-left" data-bone="leftLeg">
+        <g id="left-thigh">
+          <path class="limb" d="M220 574 L214 648"/>
+          <circle class="joint" cx="220" cy="574" r="9"/>
+          <g id="left-shin">
+            <path class="limb" d="M214 648 L212 707"/>
+            <path class="limb" d="M212 707 L184 707"/>
+            <circle class="joint" cx="214" cy="648" r="8"/>
+            <circle class="joint" cx="212" cy="707" r="7"/>
+          </g>
+        </g>
+        <path class="bone-guide" d="M220 574 L214 648 L212 707"/>
+      </g>
+      <g id="leg-right" data-bone="rightLeg">
+        <g id="right-thigh">
+          <path class="limb" d="M264 574 L270 648"/>
+          <circle class="joint" cx="264" cy="574" r="9"/>
+          <g id="right-shin">
+            <path class="limb" d="M270 648 L272 707"/>
+            <path class="limb" d="M272 707 L300 707"/>
+            <circle class="joint" cx="270" cy="648" r="8"/>
+            <circle class="joint" cx="272" cy="707" r="7"/>
+          </g>
+        </g>
+        <path class="bone-guide" d="M264 574 L270 648 L272 707"/>
+      </g>
+
+      <!-- Torso -->
+      <g id="torso" data-bone="torso">
+        <g id="outfit-style-shirttie" class="outfit-style">
+          <path class="outline outfit-main" d="M204 348 Q243 333 281 348 L292 568 Q246 585 192 567 Z"/>
+          <path class="outline outfit-secondary" d="M212 347 Q243 337 274 347 L268 397 Q244 409 218 397 Z"/>
+          <path class="outline outfit-accent" d="M234 358 L251 358 L258 449 L243 463 L227 449 Z"/>
+        </g>
+
+        <g id="outfit-style-blazer" class="outfit-style hidden-style">
+          <path class="outline outfit-main" d="M202 349 Q243 332 284 349 L290 568 Q246 584 194 568 Z"/>
+          <path class="outline outfit-secondary" d="M224 349 Q243 342 262 349 L262 429 Q244 436 224 429 Z"/>
+          <path class="outline outfit-main" d="M211 352 L236 397 L221 430 L207 383 Z"/>
+          <path class="outline outfit-main" d="M275 352 L251 397 L265 430 L281 383 Z"/>
+          <path class="outline outfit-accent" d="M236 361 L250 361 L255 437 L243 449 L231 437 Z"/>
+        </g>
+
+        <g id="outfit-style-sweater" class="outfit-style hidden-style">
+          <path class="outline outfit-main" d="M204 349 Q243 334 281 349 L289 566 Q244 582 194 566 Z"/>
+          <path class="outline outfit-secondary" d="M222 350 Q242 342 263 350 L254 389 Q242 394 230 389 Z"/>
+          <path class="outline outfit-accent" d="M217 398 Q243 390 270 398 L262 418 Q243 423 224 418 Z"/>
+          <path class="thin outfit-accent" d="M216 403 Q243 412 269 403"/>
+        </g>
+
+        <g id="outfit-style-dress" class="outfit-style hidden-style">
+          <path class="outline outfit-main" d="M214 348 Q243 336 272 348 L286 568 Q244 589 198 568 Z"/>
+          <path class="outline outfit-secondary" d="M220 348 Q243 340 266 348 L258 390 Q243 398 228 390 Z"/>
