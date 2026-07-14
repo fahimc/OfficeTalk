@@ -1,0 +1,192 @@
+        parts.lidRight.style.opacity = '0';
+      },110);
+      nextBlink = t + 1900 + Math.random() * 3200;
+    }
+
+    readout.innerHTML =
+      `state: ${state}<br>` +
+      `mouth: ${currentMouth}<br>` +
+      `head: ${headRot.toFixed(1)}deg<br>` +
+      `frontArm: ${frontRot.toFixed(1)}deg`;
+
+    renderSecondaryRig(t);
+    requestAnimationFrame(updateRig);
+  }
+
+  function setMotion(next){
+    state = next;
+    motionLabel.textContent = `${next[0].toUpperCase()+next.slice(1)} rig active`;
+    stage.classList.toggle('sitting-mode', next === 'sit');
+    document.querySelectorAll('[data-motion]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.motion === next);
+    });
+    if(next !== 'talk' && !speaking) speechBubble.classList.remove('visible');
+  }
+
+  document.getElementById('motion-buttons').addEventListener('click', e => {
+    const btn = e.target.closest('[data-motion]');
+    if(btn) setMotion(btn.dataset.motion);
+  });
+
+  stage.addEventListener('pointermove', e => {
+    const r = stage.getBoundingClientRect();
+    pointer.x = Math.max(-1, Math.min(1, (e.clientX-r.left-r.width/2)/(r.width/2)));
+    pointer.y = Math.max(-1, Math.min(1, (e.clientY-r.top-r.height/2)/(r.height/2)));
+  });
+
+
+  document.getElementById('scene-buttons').addEventListener('click', e => {
+    const btn = e.target.closest('[data-scene]');
+    if(btn){
+      stopDemoScene('manual scene change');
+      setScene(btn.dataset.scene, 'manual scene change');
+    }
+  });
+
+  document.getElementById('camera-buttons').addEventListener('click', e => {
+    const btn = e.target.closest('[data-camera]');
+    if(btn){
+      stopDemoScene('manual camera change');
+      setCamera(btn.dataset.camera, 'manual camera change');
+    }
+  });
+
+  playDemoBtn.addEventListener('click', playDemoScene);
+  stopDemoBtn.addEventListener('click', () => stopDemoScene('demo stopped'));
+
+  document.getElementById('rig-toggle').addEventListener('change',e=>{
+    svg.classList.toggle('show-rig',e.target.checked);
+  });
+  document.getElementById('blink-toggle').addEventListener('change',e=>blinkEnabled=e.target.checked);
+  document.getElementById('eye-toggle').addEventListener('change',e=>eyeFollow=e.target.checked);
+
+  function stopSpeaking(){
+    speaking = false;
+    clearInterval(speechTimer);
+    speechTimer = null;
+    speechSynthesis.cancel();
+    setMouth('rest');
+    speechBubble.classList.remove('visible');
+    if(state === 'talk') setMotion('idle');
+  }
+
+  function speak(){
+    stopSpeaking();
+    const text = document.getElementById('talk-text').value.trim();
+    if(!text) return;
+
+    speaking = true;
+    setMotion('talk');
+    positionSpeechBubble();
+    speechBubble.textContent = text;
+    speechBubble.classList.remove('speaker-left','speaker-right','speaker-center');
+    speechBubble.classList.add('speaker-center');
+    speechBubble.classList.add('visible');
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    utterance.pitch = 1.04;
+    utterance.onend = stopSpeaking;
+    utterance.onerror = stopSpeaking;
+
+    speechIndex = 0;
+    const interval = Math.max(55, Math.min(115, 5800 / Math.max(30,text.length)));
+    speechTimer = setInterval(()=>{
+      const ch = text[speechIndex % text.length];
+      setMouth(mouthForChar(ch));
+      speechIndex++;
+      if(speechIndex >= text.length){
+        setMouth('rest');
+      }
+    },interval);
+
+    speechSynthesis.speak(utterance);
+  }
+
+  document.getElementById('speak-btn').addEventListener('click',speak);
+  document.getElementById('stop-btn').addEventListener('click',stopSpeaking);
+
+  document.querySelectorAll('.swatch').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      const value = btn.dataset.value;
+      custom[type] = value;
+      applyCustomization();
+    });
+  });
+
+  bodyTypeSelect.addEventListener('change', () => {
+    custom.characterType = bodyTypeSelect.value;
+    if(custom.characterType === 'female'){
+      if(!['ponytail','bun','bob','long'].includes(custom.hairStyle)) custom.hairStyle = 'ponytail';
+      if(!['dress','blouseSkirt','cardigan'].includes(custom.outfitStyle)) custom.outfitStyle = 'dress';
+      custom.beardStyle = 'none';
+    }else{
+      if(!['swept','buzz','curly','bald'].includes(custom.hairStyle)) custom.hairStyle = 'swept';
+      if(!['shirttie','blazer','sweater'].includes(custom.outfitStyle)) custom.outfitStyle = 'shirttie';
+    }
+    applyCustomization();
+  });
+
+  hairStyleSelect.addEventListener('change', () => {
+    custom.hairStyle = hairStyleSelect.value;
+    applyCustomization();
+  });
+
+  outfitStyleSelect.addEventListener('change', () => {
+    custom.outfitStyle = outfitStyleSelect.value;
+    applyCustomization();
+  });
+
+  beardStyleSelect.addEventListener('change', () => {
+    custom.beardStyle = beardStyleSelect.value;
+    applyCustomization();
+  });
+
+  randomiseLookBtn.addEventListener('click', () => {
+    const skins = ['#f2dfd1','#ddb695','#c98f6b','#9d6947','#6d432c'];
+    const hairs = ['#252525','#5b3a1f','#a56b29','#d8b16b','#a32727'];
+    const outfits = ['#342a8a','#1f6d57','#7a2c60','#8a5a1d','#4c5768'];
+    const secondary = ['#fbfbfb','#f5e9d6','#d9edf4','#ffe4e8','#dff1df'];
+    const accents = ['#ef6d4f','#d53e3e','#f2c94c','#4fd0cc','#ffffff'];
+
+    custom.characterType = Math.random() > 0.5 ? 'male' : 'female';
+    custom.skin = skins[Math.floor(Math.random() * skins.length)];
+    custom.hair = hairs[Math.floor(Math.random() * hairs.length)];
+    custom.outfit = outfits[Math.floor(Math.random() * outfits.length)];
+    custom.secondary = secondary[Math.floor(Math.random() * secondary.length)];
+    custom.accent = accents[Math.floor(Math.random() * accents.length)];
+
+    if(custom.characterType === 'female'){
+      const hairStyles = ['ponytail','bun','bob','long'];
+      const outfitStyles = ['dress','blouseSkirt','cardigan'];
+      custom.hairStyle = hairStyles[Math.floor(Math.random() * hairStyles.length)];
+      custom.outfitStyle = outfitStyles[Math.floor(Math.random() * outfitStyles.length)];
+      custom.beardStyle = 'none';
+    }else{
+      const hairStyles = ['swept','buzz','curly','bald'];
+      const outfitStyles = ['shirttie','blazer','sweater'];
+      const beardStyles = ['none','stubble','moustache','full'];
+      custom.hairStyle = hairStyles[Math.floor(Math.random() * hairStyles.length)];
+      custom.outfitStyle = outfitStyles[Math.floor(Math.random() * outfitStyles.length)];
+      custom.beardStyle = beardStyles[Math.floor(Math.random() * beardStyles.length)];
+    }
+    applyCustomization();
+  });
+
+  window.addEventListener('resize', positionSpeechBubble);
+  window.addEventListener('orientationchange', positionSpeechBubble);
+  positionSpeechBubble();
+
+  setScene('office', 'ready for blocking');
+  setCamera('medium', 'ready for blocking');
+  applyCustomization();
+  applyLookToSvg(secondarySvg, secondaryLook);
+  requestAnimationFrame(positionBeard);
+
+  window.addEventListener('beforeunload',()=>speechSynthesis.cancel());
+  requestAnimationFrame(updateRig);
+})();
+</script>
+</body>
+</html>
