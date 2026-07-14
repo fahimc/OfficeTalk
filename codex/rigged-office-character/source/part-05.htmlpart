@@ -1,0 +1,260 @@
+    faceMain: document.getElementById('face-main'),
+    beardAnchor: document.getElementById('beard-anchor'),
+    pupils: document.getElementById('pupils'),
+    browLeft: document.getElementById('brow-left'),
+    browRight: document.getElementById('brow-right'),
+    lidLeft: document.getElementById('lid-left'),
+    lidRight: document.getElementById('lid-right')
+  };
+
+  const custom = {
+    characterType: 'male',
+    skin: '#f2dfd1',
+    hair: '#252525',
+    outfit: '#342a8a',
+    secondary: '#fbfbfb',
+    accent: '#ef6d4f',
+    hairStyle: 'swept',
+    outfitStyle: 'shirttie',
+    beardStyle: 'none'
+  };
+
+  const skinParts = [...document.querySelectorAll('.face-fill')];
+  const hairParts = [...document.querySelectorAll('.hair-fill')];
+  const beardParts = [...document.querySelectorAll('.beard-fill')];
+  const outfitMainParts = [...document.querySelectorAll('.outfit-main')];
+  const outfitSecondaryParts = [...document.querySelectorAll('.outfit-secondary')];
+  const outfitAccentParts = [...document.querySelectorAll('.outfit-accent')];
+
+  const hairGroups = {
+    swept: document.getElementById('hair-style-swept'),
+    buzz: document.getElementById('hair-style-buzz'),
+    curly: document.getElementById('hair-style-curly'),
+    ponytail: document.getElementById('hair-style-ponytail'),
+    bun: document.getElementById('hair-style-bun'),
+    bob: document.getElementById('hair-style-bob'),
+    long: document.getElementById('hair-style-long')
+  };
+
+  const beardGroups = {
+    stubble: document.getElementById('beard-style-stubble'),
+    moustache: document.getElementById('beard-style-moustache'),
+    full: document.getElementById('beard-style-full')
+  };
+
+  const outfitGroups = {
+    shirttie: document.getElementById('outfit-style-shirttie'),
+    blazer: document.getElementById('outfit-style-blazer'),
+    sweater: document.getElementById('outfit-style-sweater'),
+    dress: document.getElementById('outfit-style-dress'),
+    blouseSkirt: document.getElementById('outfit-style-blouseSkirt'),
+    cardigan: document.getElementById('outfit-style-cardigan')
+  };
+
+  const hairCatalog = {
+    male: [
+      { value: 'swept', label: 'Side swept' },
+      { value: 'buzz', label: 'Buzz cut' },
+      { value: 'curly', label: 'Curly' },
+      { value: 'bald', label: 'Bald' }
+    ],
+    female: [
+      { value: 'ponytail', label: 'Ponytail' },
+      { value: 'bun', label: 'Bun' },
+      { value: 'bob', label: 'Bob' },
+      { value: 'long', label: 'Long' }
+    ]
+  };
+
+  const outfitCatalog = {
+    male: [
+      { value: 'shirttie', label: 'Shirt + tie' },
+      { value: 'blazer', label: 'Blazer' },
+      { value: 'sweater', label: 'Sweater vest' }
+    ],
+    female: [
+      { value: 'dress', label: 'Dress' },
+      { value: 'blouseSkirt', label: 'Blouse + skirt' },
+      { value: 'cardigan', label: 'Cardigan' }
+    ]
+  };
+
+  function setActiveSwatch(type, value){
+    document.querySelectorAll(`.swatch[data-type="${type}"]`).forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.value === value);
+    });
+  }
+
+  function showOnly(groupMap, activeKey){
+    Object.entries(groupMap).forEach(([key, el]) => {
+      if(!el) return;
+      el.classList.toggle('hidden-style', key !== activeKey);
+    });
+  }
+
+  function populateSelect(select, items, selectedValue){
+    const current = items.some(item => item.value === selectedValue) ? selectedValue : items[0].value;
+    select.innerHTML = items.map(item => `<option value="${item.value}">${item.label}</option>`).join('');
+    select.value = current;
+    return current;
+  }
+
+  function syncCharacterOptions(){
+    const hairItems = hairCatalog[custom.characterType];
+    const outfitItems = outfitCatalog[custom.characterType];
+
+    custom.hairStyle = populateSelect(hairStyleSelect, hairItems, custom.hairStyle);
+    custom.outfitStyle = populateSelect(outfitStyleSelect, outfitItems, custom.outfitStyle);
+
+    const female = custom.characterType === 'female';
+    beardStyleSelect.disabled = female;
+    beardLabel.style.opacity = female ? '0.5' : '1';
+    beardStyleSelect.style.opacity = female ? '0.5' : '1';
+    if(female) custom.beardStyle = 'none';
+  }
+
+  function positionBeard(){
+    if(!parts.faceMain || !parts.beardAnchor) return;
+    const box = parts.faceMain.getBBox();
+
+    const beardPlacement = {
+      none:      { y: 0.74, scale: 1.00 },
+      stubble:   { y: 0.78, scale: 1.00 },
+      moustache: { y: 0.62, scale: 0.96 },
+      full:      { y: 0.74, scale: 1.03 }
+    };
+
+    const cfg = beardPlacement[custom.beardStyle] || beardPlacement.none;
+    const cx = box.x + box.width / 2;
+    const anchorY = box.y + box.height * cfg.y;
+    const scale = (box.width / 118) * cfg.scale;
+
+    parts.beardAnchor.setAttribute(
+      'transform',
+      `translate(${cx.toFixed(2)} ${anchorY.toFixed(2)}) scale(${scale.toFixed(3)})`
+    );
+  }
+
+  function applyCustomization(){
+    syncCharacterOptions();
+
+    skinParts.forEach(el => el.style.fill = custom.skin);
+    hairParts.forEach(el => { el.style.fill = custom.hair; });
+    beardParts.forEach(el => {
+      el.style.fill = custom.hair;
+      el.style.stroke = custom.hair;
+    });
+    outfitMainParts.forEach(el => el.style.fill = custom.outfit);
+    outfitSecondaryParts.forEach(el => el.style.fill = custom.secondary);
+    outfitAccentParts.forEach(el => el.style.fill = custom.accent);
+
+    showOnly(hairGroups, custom.hairStyle === 'bald' ? '__none__' : custom.hairStyle);
+    showOnly(beardGroups, custom.beardStyle === 'none' ? '__none__' : custom.beardStyle);
+    showOnly(outfitGroups, custom.outfitStyle);
+    positionBeard();
+
+    bodyTypeSelect.value = custom.characterType;
+    hairStyleSelect.value = custom.hairStyle;
+    outfitStyleSelect.value = custom.outfitStyle;
+    beardStyleSelect.value = custom.beardStyle;
+    setActiveSwatch('skin', custom.skin);
+    setActiveSwatch('hair', custom.hair);
+    setActiveSwatch('outfit', custom.outfit);
+    setActiveSwatch('secondary', custom.secondary);
+    setActiveSwatch('accent', custom.accent);
+  }
+
+  function collectScopedParts(root){
+    return {
+      head: root.querySelector('#head'),
+      torso: root.querySelector('#torso'),
+      frontArm: root.querySelector('#front-arm'),
+      backArm: root.querySelector('#back-arm'),
+      frontUpper: root.querySelector('#front-upper'),
+      frontFore: root.querySelector('#front-fore'),
+      legLeft: root.querySelector('#leg-left'),
+      legRight: root.querySelector('#leg-right'),
+      leftThigh: root.querySelector('#left-thigh'),
+      leftShin: root.querySelector('#left-shin'),
+      rightThigh: root.querySelector('#right-thigh'),
+      rightShin: root.querySelector('#right-shin'),
+      faceMain: root.querySelector('#face-main'),
+      beardAnchor: root.querySelector('#beard-anchor'),
+      pupils: root.querySelector('#pupils'),
+      browLeft: root.querySelector('#brow-left'),
+      browRight: root.querySelector('#brow-right'),
+      lidLeft: root.querySelector('#lid-left'),
+      lidRight: root.querySelector('#lid-right')
+    };
+  }
+
+  function positionBeardFor(root, beardStyle){
+    const faceMain = root.querySelector('#face-main');
+    const beardAnchor = root.querySelector('#beard-anchor');
+    if(!faceMain || !beardAnchor) return;
+    const box = faceMain.getBBox();
+    const beardPlacement = {
+      none:      { y: 0.74, scale: 1.00 },
+      stubble:   { y: 0.84, scale: 1.00 },
+      moustache: { y: 0.62, scale: 0.96 },
+      full:      { y: 0.80, scale: 1.03 }
+    };
+    const cfg = beardPlacement[beardStyle] || beardPlacement.none;
+    const cx = box.x + box.width / 2;
+    const anchorY = box.y + box.height * cfg.y;
+    const scale = (box.width / 118) * cfg.scale;
+    beardAnchor.setAttribute('transform', `translate(${cx.toFixed(2)} ${anchorY.toFixed(2)}) scale(${scale.toFixed(3)})`);
+  }
+
+  function showOnlyInRoot(root, selector, activeId){
+    root.querySelectorAll(selector).forEach(el => el.classList.add('hidden-style'));
+    if(activeId){
+      const active = root.querySelector(`#${activeId}`);
+      if(active) active.classList.remove('hidden-style');
+    }
+  }
+
+  function applyLookToSvg(root, look){
+    root.querySelectorAll('.face-fill').forEach(el => el.style.fill = look.skin);
+    root.querySelectorAll('.hair-fill').forEach(el => el.style.fill = look.hair);
+    root.querySelectorAll('.beard-fill').forEach(el => {
+      el.style.fill = look.hair;
+      el.style.stroke = look.hair;
+    });
+    root.querySelectorAll('.outfit-main').forEach(el => el.style.fill = look.outfit);
+    root.querySelectorAll('.outfit-secondary').forEach(el => el.style.fill = look.secondary);
+    root.querySelectorAll('.outfit-accent').forEach(el => el.style.fill = look.accent);
+
+    const hairId = look.hairStyle === 'bald' ? '' : `hair-style-${look.hairStyle}`;
+    const beardId = look.beardStyle === 'none' ? '' : `beard-style-${look.beardStyle}`;
+    const outfitId = `outfit-style-${look.outfitStyle}`;
+    showOnlyInRoot(root, '.hair-style', hairId);
+    showOnlyInRoot(root, '.beard-style', beardId);
+    showOnlyInRoot(root, '.outfit-style', outfitId);
+    positionBeardFor(root, look.beardStyle);
+  }
+
+  const secondarySvg = svg.cloneNode(true);
+  secondarySvg.id = 'character-svg-secondary';
+  secondarySvg.setAttribute('aria-label', 'Secondary rigged office character');
+  cameraRig.appendChild(secondarySvg);
+  const secondaryParts = collectScopedParts(secondarySvg);
+  let secondaryMotion = 'idle';
+  let secondaryLook = {
+    characterType: 'male',
+    skin: '#ddb695',
+    hair: '#5b3a1f',
+    outfit: '#4c5768',
+    secondary: '#f5e9d6',
+    accent: '#8a5a1d',
+    hairStyle: 'buzz',
+    outfitStyle: 'blazer',
+    beardStyle: 'stubble'
+  };
+  let mainPoseScale = 1;
+  let secondaryStage = { left: '26%', bottom: '4%', scale: 1, visible: false, flip: false, matchHeight: true, minGap: 24 };
+
+  function parseStagePercent(value, fallback = 0){
+    if(typeof value === 'number') return value;
+    if(typeof value === 'string'){
+      const n = parseFloat(value);
