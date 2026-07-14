@@ -1,0 +1,192 @@
+    <div class="sub">A self-contained SVG puppet with independent bones, expressions, blinking and text-driven lip motion.</div>
+
+    <div class="section">
+      <div class="section-title">Motions</div>
+      <div class="grid" id="motion-buttons">
+        <button data-motion="idle" class="active">Idle</button>
+        <button data-motion="talk">Talking</button>
+        <button data-motion="wave">Wave</button>
+        <button data-motion="point">Point</button>
+        <button data-motion="think">Thinking</button>
+        <button data-motion="surprised">Surprised</button>
+        <button data-motion="walk">Walk</button>
+        <button data-motion="sit">Sitting</button>
+        <button data-motion="angry">Angry</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Speech + lip motion</div>
+      <div class="talk-box">
+        <textarea id="talk-text">Being honest in a performance review is always a little awkward.</textarea>
+        <button id="speak-btn" class="wide">Speak and animate</button>
+        <button id="stop-btn" class="wide" style="background:#333">Stop speaking</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Character customisation</div>
+      <div class="controls-card">
+        <div class="mini-label">Skin tone</div>
+        <div class="swatches" id="skin-swatches">
+          <button class="swatch active" data-type="skin" data-value="#f2dfd1" style="background:#f2dfd1"></button>
+          <button class="swatch" data-type="skin" data-value="#ddb695" style="background:#ddb695"></button>
+          <button class="swatch" data-type="skin" data-value="#c98f6b" style="background:#c98f6b"></button>
+          <button class="swatch" data-type="skin" data-value="#9d6947" style="background:#9d6947"></button>
+          <button class="swatch" data-type="skin" data-value="#6d432c" style="background:#6d432c"></button>
+        </div>
+
+        <div class="mini-label">Character type</div>
+        <select id="body-type-select">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
+        <div class="mini-label">Hair style</div>
+        <select id="hair-style-select"></select>
+
+        <div class="mini-label">Clothing style</div>
+        <select id="outfit-style-select"></select>
+
+        <div class="mini-label">Hair colour</div>
+        <div class="swatches" id="hair-swatches">
+          <button class="swatch active" data-type="hair" data-value="#252525" style="background:#252525"></button>
+          <button class="swatch" data-type="hair" data-value="#5b3a1f" style="background:#5b3a1f"></button>
+          <button class="swatch" data-type="hair" data-value="#a56b29" style="background:#a56b29"></button>
+          <button class="swatch" data-type="hair" data-value="#d8b16b" style="background:#d8b16b"></button>
+          <button class="swatch" data-type="hair" data-value="#a32727" style="background:#a32727"></button>
+        </div>
+
+        <div class="mini-label" id="beard-label">Beard</div>
+        <select id="beard-style-select">
+          <option value="none">None</option>
+          <option value="stubble">Stubble</option>
+          <option value="moustache">Moustache</option>
+          <option value="full">Full beard</option>
+        </select>
+
+        <div class="mini-label">Main outfit colour</div>
+        <div class="swatches" id="outfit-swatches">
+          <button class="swatch active" data-type="outfit" data-value="#342a8a" style="background:#342a8a"></button>
+          <button class="swatch" data-type="outfit" data-value="#1f6d57" style="background:#1f6d57"></button>
+          <button class="swatch" data-type="outfit" data-value="#7a2c60" style="background:#7a2c60"></button>
+          <button class="swatch" data-type="outfit" data-value="#8a5a1d" style="background:#8a5a1d"></button>
+          <button class="swatch" data-type="outfit" data-value="#4c5768" style="background:#4c5768"></button>
+        </div>
+
+        <div class="mini-label">Shirt / blouse colour</div>
+        <div class="swatches" id="secondary-swatches">
+          <button class="swatch active" data-type="secondary" data-value="#fbfbfb" style="background:#fbfbfb"></button>
+          <button class="swatch" data-type="secondary" data-value="#f5e9d6" style="background:#f5e9d6"></button>
+          <button class="swatch" data-type="secondary" data-value="#d9edf4" style="background:#d9edf4"></button>
+          <button class="swatch" data-type="secondary" data-value="#ffe4e8" style="background:#ffe4e8"></button>
+          <button class="swatch" data-type="secondary" data-value="#dff1df" style="background:#dff1df"></button>
+        </div>
+
+        <div class="mini-label">Accent colour</div>
+        <div class="swatches" id="accent-swatches">
+          <button class="swatch active" data-type="tie" data-value="#ef6d4f" style="background:#ef6d4f"></button>
+          <button class="swatch" data-type="tie" data-value="#d53e3e" style="background:#d53e3e"></button>
+          <button class="swatch" data-type="tie" data-value="#f2c94c" style="background:#f2c94c"></button>
+          <button class="swatch" data-type="tie" data-value="#4fd0cc" style="background:#4fd0cc"></button>
+          <button class="swatch" data-type="tie" data-value="#ffffff" style="background:#ffffff"></button>
+        </div>
+
+        <button id="randomise-look" class="wide">Randomise look</button>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="section-title">Scenes</div>
+      <div class="grid" id="scene-buttons">
+        <button data-scene="office" class="active">Office</button>
+        <button data-scene="meeting">Meeting room</button>
+        <button data-scene="cafe">Cafe</button>
+        <button data-scene="studio">Studio set</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Cameras</div>
+      <div class="grid" id="camera-buttons">
+        <button data-camera="wide">Wide</button>
+        <button data-camera="medium" class="active">Medium</button>
+        <button data-camera="close">Close-up</button>
+        <button data-camera="overshoulder">Over shoulder</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Director demo</div>
+      <div class="controls-card">
+        <div style="font-size:13px;color:#cfcfcf;line-height:1.45">Play a small storyboard that switches scenes, changes shot size, and shows a character close-up like a simple movie set.</div>
+        <div class="grid" style="margin-top:10px">
+          <button id="play-demo-btn">Play demo scene</button>
+          <button id="stop-demo-btn">Stop demo</button>
+        </div>
+        <div class="readout" id="shot-readout" style="margin-top:10px">scene: Office<br>camera: Medium<br>shot: ready for blocking</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Rig controls</div>
+      <label class="switch"><span>Show bones and joints</span><input id="rig-toggle" type="checkbox"></label>
+      <label class="switch"><span>Automatic blinking</span><input id="blink-toggle" type="checkbox" checked></label>
+      <label class="switch"><span>Follow pointer with eyes</span><input id="eye-toggle" type="checkbox" checked></label>
+      <div style="margin-top:8px;font-size:12px;color:#aaa">Motion speed</div>
+      <input id="speed" type="range" min="0.5" max="2" value="1" step="0.05">
+    </div>
+
+    <div class="section">
+      <div class="section-title">Current rig state</div>
+      <div class="readout" id="readout">state: idle<br>mouth: rest<br>head: 0deg<br>frontArm: 0deg</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+(() => {
+  const svg = document.getElementById('character-svg');
+  const stage = document.getElementById('stage');
+  const cameraRig = document.getElementById('camera-rig');
+  const speechBubble = document.getElementById('speech-bubble');
+
+  function positionSpeechBubble(){
+    const rect = stage.getBoundingClientRect();
+    const left = rect.left + rect.width / 2;
+    const top = Math.max(rect.top + 108, 16);
+    const maxWidth = Math.min(rect.width * 0.72, 640);
+    document.documentElement.style.setProperty('--speech-left', `${left}px`);
+    document.documentElement.style.setProperty('--speech-top', `${top}px`);
+    document.documentElement.style.setProperty('--speech-max-width', `${maxWidth}px`);
+  }
+
+  const motionLabel = document.getElementById('motion-label');
+  const readout = document.getElementById('readout');
+  const speedInput = document.getElementById('speed');
+  const bodyTypeSelect = document.getElementById('body-type-select');
+  const hairStyleSelect = document.getElementById('hair-style-select');
+  const outfitStyleSelect = document.getElementById('outfit-style-select');
+  const beardStyleSelect = document.getElementById('beard-style-select');
+  const beardLabel = document.getElementById('beard-label');
+  const randomiseLookBtn = document.getElementById('randomise-look');
+  const directorShot = document.getElementById('director-shot');
+  const directorStatus = document.getElementById('director-status');
+  const shotReadout = document.getElementById('shot-readout');
+  const playDemoBtn = document.getElementById('play-demo-btn');
+  const stopDemoBtn = document.getElementById('stop-demo-btn');
+
+  const parts = {
+    head: document.getElementById('head'),
+    torso: document.getElementById('torso'),
+    frontArm: document.getElementById('front-arm'),
+    backArm: document.getElementById('back-arm'),
+    frontUpper: document.getElementById('front-upper'),
+    frontFore: document.getElementById('front-fore'),
+    legLeft: document.getElementById('leg-left'),
+    legRight: document.getElementById('leg-right'),
+    leftThigh: document.getElementById('left-thigh'),
+    leftShin: document.getElementById('left-shin'),
+    rightThigh: document.getElementById('right-thigh'),
+    rightShin: document.getElementById('right-shin'),
